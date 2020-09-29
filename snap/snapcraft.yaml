@@ -1,0 +1,39 @@
+name: disk-util 
+base: core18
+version: '0.1'
+summary: Example disk utility application
+description: |
+  Example utility to demonstrate accessing USB disks.
+
+grade: stable
+confinement: strict
+
+
+apps:
+    list:
+      command: bin/list
+      plugs:
+       - udisks2
+       - hardware-observe
+       - block-devices
+
+    fdisk:
+      command: fdisk
+      plugs:
+       - udisks2
+       - hardware-observe
+       - block-devices
+
+
+parts:
+  utility:
+    plugin: nil
+    stage-packages:
+      - util-linux
+
+  bin:
+    plugin: dump
+    source: bin
+    organize:
+      "*": /bin/
+

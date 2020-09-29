@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+snapcraft clean --use-lxd
+snapcraft --use-lxd
+sudo snap remove disk-util
+sudo snap install --dangerous disk-util_0.1_amd64.snap
+
+sudo snap connect disk-util:hardware-observe
+sudo snap connect disk-util:udisks2
+sudo snap connect disk-util:block-devices
+
+
