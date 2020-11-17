@@ -17,8 +17,22 @@ apps:
        - hardware-observe
        - block-devices
 
+    format:
+      command: bin/format
+      plugs:
+       - udisks2
+       - hardware-observe
+       - block-devices
+
     fdisk:
-      command: fdisk
+      command: sbin/fdisk
+      plugs:
+       - udisks2
+       - hardware-observe
+       - block-devices
+
+    mkfs:
+      command: sbin/mkfs
       plugs:
        - udisks2
        - hardware-observe
@@ -30,6 +44,7 @@ parts:
     plugin: nil
     stage-packages:
       - util-linux
+      - e2fsprogs
 
   bin:
     plugin: dump
