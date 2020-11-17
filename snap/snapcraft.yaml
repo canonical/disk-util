@@ -9,11 +9,23 @@ grade: stable
 confinement: strict
 
 
+
+slots:
+  udisks2-svc:
+    bus: system
+    interface: dbus
+    name: org.freedesktop.UDisks2
+
+plugs:
+  udisks2-cons:
+    bus: system
+    interface: dbus
+    name: org.freedesktop.UDisks2
+
 apps:
     list:
       command: bin/list
       plugs:
-       - udisks2
        - hardware-observe
        - block-devices
 
@@ -23,18 +35,11 @@ apps:
        - udisks2
        - hardware-observe
        - block-devices
+       - udisks2-cons
 
     fdisk:
       command: sbin/fdisk
       plugs:
-       - udisks2
-       - hardware-observe
-       - block-devices
-
-    mkfs:
-      command: sbin/mkfs
-      plugs:
-       - udisks2
        - hardware-observe
        - block-devices
 
@@ -45,6 +50,7 @@ parts:
     stage-packages:
       - util-linux
       - e2fsprogs
+      - udisks2
 
   bin:
     plugin: dump
