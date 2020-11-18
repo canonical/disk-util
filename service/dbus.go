@@ -8,6 +8,7 @@ import (
 // DBusService is the interface to abstract dbus
 type DBusService interface {
 	FormatPartition(device, format string) error
+	CreatePartition(device, format, name string, offset, size uint64) error
 }
 
 // DBus implements a wrapper for the dbus service
