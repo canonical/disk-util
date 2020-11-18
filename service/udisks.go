@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/godbus/dbus"
+	"log"
 	"path"
 )
 
@@ -24,6 +25,8 @@ func (db *DBus) CreatePartition(device, format, name string, offset, size uint64
 	devicePath := path.Join("/org/freedesktop/UDisks2/block_devices", device)
 	obj := db.getBusObject("org.freedesktop.UDisks2", devicePath)
 
-	call := obj.Call(udisksPartitionCreate, 0, offset*1024*1024, size*1024*1024, format, name, map[string]dbus.Variant{}, false)
-	return call.Err
+	var resp map[string]dbus.Variant
+	err := obj.Call(udisksPartitionCreate, 0, offset*1024*1024, size*1024*1024, format, name, map[string]dbus.Variant{}).Store(&resp)
+	log.Println(resp)
+	return err
 }
