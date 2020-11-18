@@ -8,20 +8,6 @@ description: |
 grade: stable
 confinement: strict
 
-
-
-slots:
-  udisks2-svc:
-    bus: system
-    interface: dbus
-    name: org.freedesktop.UDisks2
-
-plugs:
-  udisks2-cons:
-    bus: system
-    interface: dbus
-    name: org.freedesktop.UDisks2
-
 apps:
     list:
       command: bin/list
@@ -35,7 +21,6 @@ apps:
        - udisks2
        - hardware-observe
        - block-devices
-       - udisks2-cons
 
     fdisk:
       command: sbin/fdisk
@@ -58,3 +43,10 @@ parts:
     organize:
       "*": /bin/
 
+  application:
+    plugin: go
+    go-importpath: github.com/slimjim777/disk-util
+    source: .
+    source-type: git
+    build-packages:
+      - gcc

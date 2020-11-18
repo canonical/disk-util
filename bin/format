@@ -1,4 +1,7 @@
 #!/bin/sh
 
 
-dbus-send --system --print-reply --dest=org.freedesktop.UDisks2 /org/freedesktop/UDisks2/block_devices/$1 org.freedesktop.DBus.UDisks2.Block.Format string:"$2"
+#dbus-send --system --print-reply --dest=org.freedesktop.UDisks2 /org/freedesktop/UDisks2/block_devices/$1 org.freedesktop.DBus.UDisks2.Block.Format string:"$2"
+
+cd $SNAP
+bin/disk-util -command format -device $1 -format $2
