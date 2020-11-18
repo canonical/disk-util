@@ -26,7 +26,7 @@ func (db *DBus) CreatePartition(device, format, name string, offset, size uint64
 	obj := db.getBusObject("org.freedesktop.UDisks2", devicePath)
 
 	var resp map[string]dbus.Variant
-	err := obj.Call(udisksPartitionCreate, 0, offset*1024*1024, size*1024*1024, format, name, map[string]dbus.Variant{}).Store(&resp)
+	err := obj.Call(udisksPartitionCreate, 0, offset, size, format, name, map[string]dbus.Variant{}).Store(&resp)
 	log.Println(resp)
 	return err
 }

@@ -43,8 +43,8 @@ func parseArgs() {
 	flag.StringVar(&device, "device", "", "The device to operate on e.g. sdd, sdf3")
 	flag.StringVar(&formatType, "type", "", "The format type e.g. ext4")
 	flag.StringVar(&name, "name", "", "Name of a partition to be created")
-	flag.Uint64Var(&offset, "offset", 0, "Offset to create a partition (Mb)")
-	flag.Uint64Var(&size, "size", 0, "Size of a partition (Mb)")
+	flag.Uint64Var(&offset, "offset", 0, "Offset to create a partition (bytes)")
+	flag.Uint64Var(&size, "size", 0, "Size of a partition (bytes)")
 
 	flag.Parse()
 }
