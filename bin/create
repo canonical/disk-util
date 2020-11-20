@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd $SNAP
-bin/disk-util -command format -device $1 -type $2 -offset $3 -size $4
+bin/disk-util -command create -device $1 -part-type $2 -offset $3 -size $4

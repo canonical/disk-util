@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd $SNAP
+bin/disk-util -command delete -device $1

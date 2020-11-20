@@ -7,26 +7,38 @@ import (
 )
 
 const (
-	udisksBlockFormat     = "org.freedesktop.DBus.UDisks2.Block.Format"
-	udisksPartitionCreate = "org.freedesktop.UDisks2.PartitionTable.CreatePartition"
+	udisksPartitionDelete       = "org.freedesktop.UDisks2.Partition.Delete"
+	udisksPartitionCreate       = "org.freedesktop.UDisks2.PartitionTable.CreatePartition"
+	udisksPartitionCreateFormat = "org.freedesktop.UDisks2.PartitionTable.CreatePartitionAndFormat"
 )
 
-// FormatPartition use udisks to format a partition
-func (db *DBus) FormatPartition(device, format string) error {
+// CreatePartition creates a new partition on a block device
+func (db *DBus) CreatePartition(device, partType, name string, offset, size uint64) error {
 	devicePath := path.Join("/org/freedesktop/UDisks2/block_devices", device)
 	obj := db.getBusObject("org.freedesktop.UDisks2", devicePath)
 
-	call := obj.Call(udisksBlockFormat, 0, format, map[string]dbus.Variant{}, false)
+	var resp string
+	err := obj.Call(udisksPartitionCreate, 0, offset, size, partType, name, map[string]dbus.Variant{}).Store(&resp)
+	log.Println(resp)
+	return err
+}
+
+// DeletePartition deletes an existing partition
+func (db *DBus) DeletePartition(device string) error {
+	devicePath := path.Join("/org/freedesktop/UDisks2/block_devices", device)
+	obj := db.getBusObject("org.freedesktop.UDisks2", devicePath)
+
+	call := obj.Call(udisksPartitionDelete, 0, map[string]dbus.Variant{})
 	return call.Err
 }
 
-// CreatePartition creates a new partition on a block device
-func (db *DBus) CreatePartition(device, format, name string, offset, size uint64) error {
+// CreateAndFormatPartition creates a new partition on a block device and formats it
+func (db *DBus) CreateAndFormatPartition(device, partType, name, formatType string, offset, size uint64) error {
 	devicePath := path.Join("/org/freedesktop/UDisks2/block_devices", device)
 	obj := db.getBusObject("org.freedesktop.UDisks2", devicePath)
 
-	var resp map[string]dbus.Variant
-	err := obj.Call(udisksPartitionCreate, 0, offset, size, format, name, map[string]dbus.Variant{}).Store(&resp)
+	var resp string
+	err := obj.Call(udisksPartitionCreateFormat, 0, offset, size, partType, name, map[string]dbus.Variant{}, formatType, map[string]dbus.Variant{}).Store(&resp)
 	log.Println(resp)
 	return err
 }

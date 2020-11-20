@@ -10,6 +10,7 @@ import (
 var (
 	command    string
 	device     string
+	partType   string
 	formatType string
 	name       string
 	offset     uint64
@@ -26,9 +27,11 @@ func main() {
 
 	switch command {
 	case "format":
-		err = dBus.FormatPartition(device, formatType)
+		err = dBus.CreateAndFormatPartition(device, partType, name, formatType, offset, size)
 	case "create":
-		err = dBus.CreatePartition(device, formatType, name, offset, size)
+		err = dBus.CreatePartition(device, partType, name, offset, size)
+	case "delete":
+		err = dBus.DeletePartition(device)
 	default:
 		err = fmt.Errorf("unsupported command: %s", command)
 	}
@@ -41,6 +44,7 @@ func main() {
 func parseArgs() {
 	flag.StringVar(&command, "command", "list", "The udisks command e.g. list, create, format")
 	flag.StringVar(&device, "device", "", "The device to operate on e.g. sdd, sdf3")
+	flag.StringVar(&partType, "part-type", "", "The partition type e.g. 0x83")
 	flag.StringVar(&formatType, "type", "", "The format type e.g. ext4")
 	flag.StringVar(&name, "name", "", "Name of a partition to be created")
 	flag.Uint64Var(&offset, "offset", 0, "Offset to create a partition (bytes)")

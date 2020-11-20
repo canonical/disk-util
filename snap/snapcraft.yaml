@@ -15,7 +15,7 @@ apps:
        - hardware-observe
        - block-devices
 
-    format:
+    create-format:
       command: bin/format
       plugs:
        - udisks2
