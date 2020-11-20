@@ -29,6 +29,13 @@ apps:
         - hardware-observe
         - block-devices
 
+    delete:
+      command: bin/delete
+      plugs:
+        - udisks2
+        - hardware-observe
+        - block-devices
+
     fdisk:
       command: sbin/fdisk
       plugs:
